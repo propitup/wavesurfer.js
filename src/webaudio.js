@@ -12,9 +12,13 @@ WaveSurfer.WebAudio = {
 
     getAudioContext: function () {
         if (!this.ac) {
-            this.ac = new (
-                window.AudioContext || window.webkitAudioContext
-            );
+            if ( !window.ac ) {
+                this.ac = window.ac = new (
+                    window.AudioContext || window.webkitAudioContext
+                );
+            } else {
+                this.ac = window.ac;
+            }
         }
         return this.ac;
     },
@@ -287,8 +291,8 @@ WaveSurfer.WebAudio = {
         // not passed in as a parameter
         if (!this.params.audioContext) {
             // check if browser supports AudioContext.close()
-            if (typeof this.ac.close() !== 'undefined') {
-                this.ac.close();
+            if (window.ac && typeof this.ac.close() !== 'undefined') {
+                window.ac = null
             }
         }
     },
