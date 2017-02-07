@@ -4,7 +4,7 @@
     define('wavesurfer', [], function () {
       return (root['WaveSurfer'] = factory());
     });
-  } else if (typeof exports === 'object') {
+  } else if (typeof module === 'object' && module.exports) {
     // Node. Does not work with strict CommonJS, but
     // only CommonJS-like environments that support module.exports,
     // like Node.
@@ -785,9 +785,13 @@ WaveSurfer.WebAudio = {
 
     getAudioContext: function () {
         if (!this.ac) {
-            this.ac = new (
-                window.AudioContext || window.webkitAudioContext
-            );
+            if ( !window.wavesurferAudioContext ) {
+                this.ac = window.wavesurferAudioContext = new (
+                    window.AudioContext || window.webkitAudioContext
+                );
+            } else {
+                this.ac = window.wavesurferAudioContext;
+            }
         }
         return this.ac;
     },
@@ -1060,8 +1064,8 @@ WaveSurfer.WebAudio = {
         // not passed in as a parameter
         if (!this.params.audioContext) {
             // check if browser supports AudioContext.close()
-            if (typeof this.ac.close() !== 'undefined') {
-                this.ac.close();
+            if (window.wavesurferAudioContext && typeof this.ac.close() !== 'undefined') {
+                window.wavesurferAudioContext = null;
             }
         }
     },
