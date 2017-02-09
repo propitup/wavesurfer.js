@@ -533,6 +533,14 @@ var WaveSurfer = {
         return json;
     },
 
+    setPeaks: function(peaks) {
+        this.backend.setPeaks( peaks );
+    },
+
+    getPeaks: function(peaks, length, accuracy) {
+        this.backend.getPeaks( peaks, length, accuracy );
+    },
+
     /**
      * Save waveform image as data URI.
      *
