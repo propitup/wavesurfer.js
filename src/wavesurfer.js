@@ -311,8 +311,6 @@ var WaveSurfer = {
             end = width;
             var peaks = this.backend.getPeaks(width, start, end);
             this.drawer.drawPeaks(peaks, width, start, end);
-            var pcm = this.exportPCM( peaks );
-            window.console.log ( '!! 2 wavesurfer getPeaks', pcm, peaks );
         }
         this.fireEvent('redraw', peaks, width);
     },
