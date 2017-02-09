@@ -311,8 +311,8 @@ var WaveSurfer = {
             end = width;
             var peaks = this.backend.getPeaks(width, start, end);
             this.drawer.drawPeaks(peaks, width, start, end);
-            let pcm = this.exportPCM( peaks )
-            console.log ( '!! 2 wavesurfer getPeaks', pcm, peaks )
+            var pcm = this.exportPCM( peaks );
+            window.console.log ( '!! 2 wavesurfer getPeaks', pcm, peaks );
         }
         this.fireEvent('redraw', peaks, width);
     },
@@ -517,8 +517,7 @@ var WaveSurfer = {
         noWindow = noWindow || false;
         peaks = peaks || this.backend.getPeaks(length, accuracy);
         var arr = [].map.call(peaks, function (val) {
-            let t = Math.round(val * accuracy) / accuracy;
-            return t;
+            return Math.round(val * accuracy) / accuracy;
         });
         var json = JSON.stringify(arr);
         if (!noWindow) {

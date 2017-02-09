@@ -319,6 +319,8 @@ var WaveSurfer = {
             end = width;
             var peaks = this.backend.getPeaks(width, start, end);
             this.drawer.drawPeaks(peaks, width, start, end);
+            var pcm = this.exportPCM( peaks );
+            window.console.log ( '!! 2 wavesurfer getPeaks', pcm, peaks );
         }
         this.fireEvent('redraw', peaks, width);
     },
@@ -376,7 +378,7 @@ var WaveSurfer = {
             my.fireEvent('error', 'Error reading file');
         });
         reader.readAsArrayBuffer(blob);
-        this.empty();
+        // this.empty();
     },
 
     /**
@@ -517,11 +519,11 @@ var WaveSurfer = {
     /**
      * Exports PCM data into a JSON array and opens in a new window.
      */
-    exportPCM: function (length, accuracy, noWindow) {
+    exportPCM: function (peaks, length, accuracy, noWindow) {
         length = length || 1024;
         accuracy = accuracy || 10000;
         noWindow = noWindow || false;
-        var peaks = this.backend.getPeaks(length, accuracy);
+        peaks = peaks || this.backend.getPeaks(length, accuracy);
         var arr = [].map.call(peaks, function (val) {
             return Math.round(val * accuracy) / accuracy;
         });
