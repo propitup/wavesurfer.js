@@ -353,7 +353,10 @@ var WaveSurfer = {
      */
     loadDecodedBuffer: function (buffer) {
         this.backend.load(buffer);
-        this.drawBuffer();
+        if ( !this.backend.getPeaks()){
+            // don't redraw if there are already peaks
+            this.drawBuffer();
+        }
         this.fireEvent('ready');
     },
 
@@ -1002,7 +1005,7 @@ WaveSurfer.WebAudio = {
      */
     getPeaks: function (length, first, last) {
         if (this.peaks) { return this.peaks; }
-        if (!this.buffer.length) { return false; }
+        if (this.buffer && !this.buffer.length) { return false; }
         this.setLength(length);
 
         var sampleSize = this.buffer.length / length;

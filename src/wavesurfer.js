@@ -345,7 +345,10 @@ var WaveSurfer = {
      */
     loadDecodedBuffer: function (buffer) {
         this.backend.load(buffer);
-        this.drawBuffer();
+        if ( !this.backend.getPeaks()){
+            // don't redraw if there are already peaks
+            this.drawBuffer();
+        }
         this.fireEvent('ready');
     },
 
